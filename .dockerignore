@@ -1,0 +1,7 @@
+**/target
+.git
+.github/modernize
+.idea
+.vscode
+*.log
+.env

@@ -1,0 +1,3 @@
+package com.swiftpay.ledger.entity;
+import jakarta.persistence.*; import java.math.BigDecimal;
+@Entity @Table(name="users") public class UserAccount { @Id @Column(length=80) private String id; @Column(nullable=false,precision=19,scale=4) private BigDecimal balance; protected UserAccount(){} public String getId(){return id;} public BigDecimal getBalance(){return balance;} public void debit(BigDecimal a){balance=balance.subtract(a);} public void credit(BigDecimal a){balance=balance.add(a);} }

@@ -1,0 +1,2 @@
+create table if not exists transactions (id bigserial primary key, transaction_id varchar(80) not null unique, payer_id varchar(80) not null, payee_id varchar(80) not null, amount numeric(19,4) not null, currency varchar(3) not null, status varchar(16) not null, created_at timestamp with time zone not null);
+create index if not exists idx_transactions_payer_created on transactions(payer_id,created_at);

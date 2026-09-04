@@ -1,0 +1,1 @@
+create table if not exists payment_analytics (id bigserial primary key, transaction_id varchar(80) not null unique, amount numeric(19,4) not null, completed_at timestamp with time zone not null);

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata: { name: swiftpay }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: transaction-gateway, namespace: swiftpay }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: transaction-gateway } }
+  template:
+    metadata: { labels: { app: transaction-gateway } }
+    spec:
+      containers:
+        - name: app
+          image: swiftpay/transaction-gateway:latest
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 3001 }]
+          livenessProbe: { httpGet: { path: /health, port: 3001 }, initialDelaySeconds: 30, periodSeconds: 10 }
+          readinessProbe: { httpGet: { path: /health/readiness, port: 3001 }, initialDelaySeconds: 30, periodSeconds: 10 }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: transaction-gateway, namespace: swiftpay }
+spec: { selector: { app: transaction-gateway }, ports: [{ port: 3001, targetPort: 3001 }] }

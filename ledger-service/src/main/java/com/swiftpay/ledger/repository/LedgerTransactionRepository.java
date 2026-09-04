@@ -1,0 +1,3 @@
+package com.swiftpay.ledger.repository;
+import com.swiftpay.ledger.entity.LedgerTransaction; import java.util.*; import org.springframework.data.domain.*; import org.springframework.data.jpa.repository.*;
+public interface LedgerTransactionRepository extends JpaRepository<LedgerTransaction,Long>{Optional<LedgerTransaction> findByTransactionId(String id); Page<LedgerTransaction> findBySenderId(String id,Pageable p); Page<LedgerTransaction> findBySenderIdAndStatus(String id,String status,Pageable p);}

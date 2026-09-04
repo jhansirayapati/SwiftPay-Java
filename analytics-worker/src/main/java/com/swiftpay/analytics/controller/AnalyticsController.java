@@ -1,0 +1,2 @@
+package com.swiftpay.analytics.controller; import com.swiftpay.analytics.repository.AnalyticsRepository; import java.math.BigDecimal; import java.util.Map; import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("/v1/analytics") public class AnalyticsController {private final AnalyticsRepository repo;public AnalyticsController(AnalyticsRepository r){repo=r;} @GetMapping("/volume") public Map<String,BigDecimal> volume(){return Map.of("volume",repo.totalVolume());}}

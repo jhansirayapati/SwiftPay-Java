@@ -1,0 +1,2 @@
+package com.swiftpay.ledger.config; import org.springframework.context.annotation.*; import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory; import org.springframework.kafka.core.*; import org.apache.kafka.common.serialization.StringDeserializer;
+@Configuration public class KafkaConfig { @Bean ConcurrentKafkaListenerContainerFactory<String,String> kafkaListenerContainerFactory(ConsumerFactory<String,String> cf){var f=new ConcurrentKafkaListenerContainerFactory<String,String>();f.setConsumerFactory(cf);return f;} }

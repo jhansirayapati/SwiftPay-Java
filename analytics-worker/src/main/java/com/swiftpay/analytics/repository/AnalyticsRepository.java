@@ -1,0 +1,2 @@
+package com.swiftpay.analytics.repository; import com.swiftpay.analytics.entity.PaymentAnalytics; import java.math.BigDecimal; import org.springframework.data.jpa.repository.*; import org.springframework.data.repository.query.Param;
+public interface AnalyticsRepository extends JpaRepository<PaymentAnalytics,Long>{@Query("select coalesce(sum(a.amount),0) from PaymentAnalytics a") BigDecimal totalVolume();}

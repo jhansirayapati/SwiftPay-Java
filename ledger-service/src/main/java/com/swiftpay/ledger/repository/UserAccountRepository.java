@@ -1,0 +1,3 @@
+package com.swiftpay.ledger.repository;
+import com.swiftpay.ledger.entity.UserAccount; import java.util.*; import org.springframework.data.jpa.repository.*; import org.springframework.data.repository.query.Param; import jakarta.persistence.LockModeType;
+public interface UserAccountRepository extends JpaRepository<UserAccount,String>{@Lock(LockModeType.PESSIMISTIC_WRITE) @Query("select u from UserAccount u where u.id in :ids order by u.id") List<UserAccount> lockAll(@Param("ids") Collection<String> ids);}
