@@ -19,7 +19,7 @@ export const options = {
 					timeUnit: '1s',
 					duration: `${Math.ceil(totalRequests / targetTps)}s`,
 					preAllocatedVUs: vus,
-					maxVUs: Math.max(vus, targetTps),
+					maxVUs: Math.max(vus, targetTps * 2),
 				},
 			},
 		}

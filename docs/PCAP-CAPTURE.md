@@ -1,26 +1,86 @@
 # PCAP Capture Procedure
 
-No capture has been executed or claimed in this repository.
+A network packet capture was successfully executed against the SwiftPay
+transaction gateway during final validation.
 
-## tcpdump
+## Capture Method
 
-1. Start the stack with `docker compose --env-file .env up --build`.
-2. Identify the Docker bridge interface with `docker network ls` and the host interface details for that network.
-3. Start capture on the relevant interface, for example:
+Windows Packet Monitor (`pktmon`) was used because the validation environment
+was running on Windows with Docker Desktop/Kubernetes.
 
-	`sudo tcpdump -i <interface> -w swiftpay.pcapng host <gateway-host> or port 5432 or port 6379 or port 9092`
+### Capture Configuration
 
-4. Run the k6 script from `k6/load-tests/payment-load.js`.
-5. Stop tcpdump with Ctrl+C after the test completes.
-6. Inspect `swiftpay.pcapng` in Wireshark and confirm HTTP gateway traffic plus the expected PostgreSQL, Redis, and Kafka connections.
-7. Add the resulting PCAP only if repository size and data-handling policy permit it. Redact or exclude credentials and other sensitive data.
+- Capture tool: Windows `pktmon`
+- Filter: TCP port `3101`
+- Capture type: All packets
+- Packet size: Unlimited (`--pkt-size 0`)
+- Logging mode: Circular
+- Maximum ETL size: 512 MB
+- Capture file: `evidence/swiftpay-payment.etl`
 
-## Wireshark
+The capture was configured using:
 
-1. Start the Compose stack and k6 test.
-2. Select the Docker bridge or host interface carrying the traffic.
-3. Use a display filter such as `tcp.port == 3001 || tcp.port == 5432 || tcp.port == 6379 || tcp.port == 9092`.
-4. Start and stop the capture around the test, then save it as `swiftpay.pcapng`.
-5. Verify the saved file opens and contains the expected flows. Record the capture date, interface, filters, and test configuration alongside the artifact.
+```powershell
+pktmon filter remove
+pktmon filter add -p 3101
+The capture was started using:
 
-The resulting file is intentionally absent until an actual capture is performed.
+pktmon start --capture --pkt-size 0 --file-name "C:\Users\King Of Lenovo\Desktop\Swiftpay Java\evidence\swiftpay-payment.etl"
+
+PktMon reported:
+
+Logger name:        PktMon
+Logging mode:       Circular
+Log file:           C:\Users\King Of Lenovo\Desktop\Swiftpay Java\evidence\swiftpay-payment.etl
+Max file size:      512 MB
+Memory used:        256 MB
+Capture Type:       All packets
+
+Packet Filters:
+ # Name    Port
+ 1 <empty> 3101
+Test Request
+
+A real SwiftPay payment request was generated while the packet capture was
+active.
+
+Request
+POST http://127.0.0.1:3101/v1/payments
+Content-Type: application/json
+Accept: */*
+Request Payload
+{
+  "transaction_id": "txn-pcap-003",
+  "sender_id": "user_001",
+  "receiver_id": "user_002",
+  "amount": 1,
+  "currency": "INR",
+  "description": "PCAP network trace test"
+}
+
+The request was sent using:
+
+curl.exe -i -X POST "http://127.0.0.1:3101/v1/payments" `
+  -H "accept: */*" `
+  -H "Content-Type: application/json" `
+  --data-binary "@.\evidence\pcap-payment.json"
+Response
+
+The gateway successfully accepted the payment request.
+
+HTTP/1.1 202
+Content-Type: application/json
+Response Body
+{
+  "transactionId": "txn-pcap-003",
+  "status": "PENDING",
+  "senderId": "user_001",
+  "receiverId": "user_002",
+  "amount": "1",
+  "currency": "INR"
+}
+Correlation ID
+4bb933e0-8fb5-4660-b710-80931ffd6e3f
+
+The request therefore produced the expected HTTP 202 Accepted response while
+the packet capture was active.
