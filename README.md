@@ -13,6 +13,7 @@ SwiftPay is a Java 21 and Spring Boot peer-to-peer payment ledger. PostgreSQL is
 - Transaction history pagination and analytics volume endpoint
 - Flyway migrations with deterministic seed accounts
 - Docker Compose, complete Kubernetes manifests, GitHub Actions workflow, configurable k6 script, and PCAP capture guidance
+- Focused service unit tests and gateway MVC integration tests
 
 **Not yet implemented:**
 
@@ -20,7 +21,7 @@ SwiftPay is a Java 21 and Spring Boot peer-to-peer payment ledger. PostgreSQL is
 - Full Testcontainers integration suite
 - Operational execution of the distributed stack in this environment
 
-Ledger service is the Flyway migration owner for the shared Compose database. Gateway and analytics disable their duplicate migration locations in Compose to avoid competing `V1` histories; their JPA mappings use the schema created by ledger-service. Kubernetes resources are split across `k8s/swiftpay.yaml`, `k8s/infrastructure.yaml`, and `k8s/applications.yaml`; runtime deployment was not executed.
+Ledger service is the Flyway migration owner for the shared database. Gateway and analytics disable their duplicate migration locations in Compose to avoid competing `V1` histories; their JPA mappings use the schema created by ledger-service. Kubernetes resources are split across `k8s/swiftpay.yaml`, `k8s/infrastructure.yaml`, and `k8s/applications.yaml`.
 
 ## Services
 
@@ -46,4 +47,4 @@ Each service exposes Actuator health at `/health` and readiness at `/ready`.
 
 ## Development Status
 
-`mvn clean verify` is the verified local build gate. Docker Compose configuration parsing has been verified with a temporary environment value. A Docker runtime attempt was made, but image build failed on a Docker Desktop containerd `input/output error` while reading the Kafka image blob; no containers started. A k6 smoke test was also attempted and recorded connection refusals because the gateway was unavailable. Kubernetes runtime and packet capture remain unverified.
+`mvn clean verify` is the verified local build gate. Docker Compose configuration parsing is verified. Kubernetes runtime/API is verified locally: all infrastructure and application pods reached readiness, gateway health/readiness returned HTTP 200, a payment completed through Kafka and the ledger, insufficient funds produced a FAILED transaction, Redis idempotency and TTL were observed, and analytics/history endpoints returned data. The 250 TPS benchmark, 1M transaction run, and packet capture remain unverified.

@@ -1,0 +1,8 @@
+﻿{
+  "transaction_id": "txn-pcap-003",
+  "sender_id": "user_001",
+  "receiver_id": "user_002",
+  "amount": 1,
+  "currency": "INR",
+  "description": "PCAP network trace test"
+}

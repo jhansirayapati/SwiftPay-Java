@@ -4,30 +4,30 @@ Use only these statuses: `VERIFIED`, `IMPLEMENTED - NOT VERIFIED`, `PARTIALLY IM
 
 | Requirement | Status |
 | --- | --- |
-| POST `/v1/payments` | IMPLEMENTED - NOT VERIFIED |
-| Redis idempotency | IMPLEMENTED - NOT VERIFIED |
+| POST `/v1/payments` | VERIFIED |
+| Redis idempotency | VERIFIED |
 | PENDING state | VERIFIED |
-| Kafka PaymentInitiated | IMPLEMENTED - NOT VERIFIED |
-| Atomic debit/credit | IMPLEMENTED - NOT VERIFIED |
-| Insufficient funds | IMPLEMENTED - NOT VERIFIED |
-| PaymentCompleted / PaymentFailed | IMPLEMENTED - NOT VERIFIED |
-| Transaction history | IMPLEMENTED - NOT VERIFIED |
-| Analytics | IMPLEMENTED - NOT VERIFIED |
-| Swagger/OpenAPI | IMPLEMENTED - NOT VERIFIED |
+| Kafka PaymentInitiated | VERIFIED |
+| Atomic debit/credit | VERIFIED |
+| Insufficient funds | VERIFIED |
+| PaymentCompleted / PaymentFailed | VERIFIED |
+| Transaction history | VERIFIED |
+| Analytics | VERIFIED |
+| Swagger/OpenAPI | VERIFIED |
 | HTTP status and error response | IMPLEMENTED - NOT VERIFIED |
 | Kafka retry and DLQ | IMPLEMENTED - NOT VERIFIED |
-| Health and readiness | IMPLEMENTED - NOT VERIFIED |
+| Health and readiness | VERIFIED |
 | Correlation logging | IMPLEMENTED - NOT VERIFIED |
 | Docker build | IMPLEMENTED - NOT VERIFIED |
-| Docker runtime | NOT EXECUTED - ENVIRONMENT LIMITATION |
-| Kubernetes manifests | PARTIALLY IMPLEMENTED |
-| Kubernetes runtime | NOT EXECUTED - ENVIRONMENT LIMITATION |
+| Docker runtime | IMPLEMENTED - NOT VERIFIED |
+| Kubernetes manifests | VERIFIED |
+| Kubernetes runtime | VERIFIED |
 | GitHub Actions configuration | IMPLEMENTED - NOT VERIFIED |
 | GitHub Actions remote execution | NOT EXECUTED - ENVIRONMENT LIMITATION |
 | Unit tests | VERIFIED |
-| Integration tests | NOT IMPLEMENTED |
+| Integration tests | VERIFIED for gateway MVC slice and live Kubernetes flow |
 | Testcontainers | NOT IMPLEMENTED |
-| k6 load test | IMPLEMENTED - NOT VERIFIED |
+| k6 load test | IMPLEMENTED - NOT VERIFIED; script inspection VERIFIED |
 | 250 TPS target | NOT EXECUTED - ENVIRONMENT LIMITATION |
 | 1M transaction test | NOT EXECUTED - ENVIRONMENT LIMITATION |
 | PCAP | NOT EXECUTED - ENVIRONMENT LIMITATION |

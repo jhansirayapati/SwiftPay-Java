@@ -11,6 +11,8 @@ This records prompts actually used during the implementation and final validatio
 - Debugging work: investigation of failing YAML context tests, followed by conversion of invalid flow-style mappings to block-style YAML.
 - Review work: inspection of migration ownership, which identified the shared-database Flyway `V1` conflict and led to ledger-only Flyway ownership in Compose.
 - Final runtime work: Docker Desktop was re-probed successfully, Compose image build was attempted, and the actual containerd Kafka image-blob `input/output error` was recorded. k6 `v2.2.0` was run for a one-second smoke test and recorded connection refusals because no gateway container was available.
+- Test coverage work: the implementation workflow added Mockito tests for gateway idempotency and ledger settlement, plus a MockMvc gateway integration slice for snake_case request binding, accepted responses, and validation errors. The resulting Maven suite passed with 11 tests.
+- Performance workflow: the k6 script was inspected successfully in smoke mode and extended with explicit `TARGET_TPS`/`TOTAL_REQUESTS` benchmark configuration; the benchmark itself was not run.
 
 ## Prompting principles
 

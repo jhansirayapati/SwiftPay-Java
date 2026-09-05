@@ -6,14 +6,28 @@ const baseUrl = __ENV.BASE_URL || 'http://localhost:3001';
 const vus = Number(__ENV.VUS || 10);
 const duration = __ENV.DURATION || '30s';
 const targetTps = Number(__ENV.TARGET_TPS || 0);
+const totalRequests = Number(__ENV.TOTAL_REQUESTS || 0);
+const benchmarkMode = targetTps > 0 && totalRequests > 0;
 
 export const options = {
-	vus,
-	duration,
+	...(benchmarkMode
+		? {
+			scenarios: {
+				benchmark: {
+					executor: 'constant-arrival-rate',
+					rate: targetTps,
+					timeUnit: '1s',
+					duration: `${Math.ceil(totalRequests / targetTps)}s`,
+					preAllocatedVUs: vus,
+					maxVUs: Math.max(vus, targetTps),
+				},
+			},
+		}
+		: { vus, duration }),
 	thresholds: {
 		http_req_failed: ['rate<0.01'],
 		http_req_duration: ['p(95)<500', 'p(99)<1000'],
-		...(targetTps > 0 ? { http_reqs: [`rate>=${targetTps}`] } : {}),
+		...(benchmarkMode ? { http_reqs: [`rate>=${targetTps}`] } : {}),
 	},
 };
 

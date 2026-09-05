@@ -8,3 +8,6 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '21', cache: maven }
       - run: mvn clean verify
+      - run: docker build -f transaction-gateway/Dockerfile -t swiftpay/transaction-gateway:ci .
+      - run: docker build -f ledger-service/Dockerfile -t swiftpay/ledger-service:ci .
+      - run: docker build -f analytics-worker/Dockerfile -t swiftpay/analytics-worker:ci .
