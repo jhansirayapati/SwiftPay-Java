@@ -1,0 +1,8 @@
+{
+  "transaction_id": "pcap-test-008",
+  "sender_id": "sender-001",
+  "receiver_id": "receiver-001",
+  "amount": 10.50,
+  "currency": "INR",
+  "description": "Wireshark loopback HTTP test"
+}
